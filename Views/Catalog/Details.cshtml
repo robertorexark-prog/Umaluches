@@ -1,0 +1,58 @@
+@model Umaluches.Models.Producto
+@{
+    ViewData["Title"] = Model.Nombre;
+}
+
+<section class="container mt-5 mb-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Catalog" asp-action="Index">Catálogo</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Nombre</li>
+        </ol>
+    </nav>
+
+    @if (TempData["CatalogoAviso"] is string aviso)
+    {
+        <div class="alert alert-warning" role="alert">@aviso</div>
+    }
+
+    <div class="row g-4 align-items-start">
+        <!--Imagen-->
+        <div class="col-12 col-md-6 hero-section">
+            <div class="detalle-imagen rounded shadow overflow-hidden">
+                <partial name="_ImagenProducto" model="Model" />
+            </div>
+        </div>
+
+        <!--Especificaciones-->
+        <div class="col-12 col-md-6">
+            <h1>@Model.Nombre</h1>
+            <p class="precio-detalle">@Model.Precio.ToString("C")</p>
+            <p>@Model.Descripcion</p>
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col" colspan="2">Especificaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th scope="row">Anime</th><td>@Model.Anime.Nombre</td></tr>
+                        <tr><th scope="row">Generación</th><td>@Model.Generacion.Nombre</td></tr>
+                        <tr><th scope="row">Línea</th><td>Cuties</td></tr>
+                        <tr><th scope="row">Tamaño</th><td>20 cm aprox.</td></tr>
+                        <tr><th scope="row">Material</th><td>Felpa suave con relleno de algodón</td></tr>
+                        <tr><th scope="row">Disponibilidad</th><td><partial name="_EtiquetaStock" model="Model.Stock" /> <span class="small">(@Model.Stock en inventario)</span></td></tr>
+                        <tr><th scope="row">Código</th><td>CUT-@(Model.Id.ToString("D3"))</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <partial name="_BotonComprar" model="Model" />
+                <a asp-controller="Catalog" asp-action="Index" class="btn btn-outline-secondary">Volver al catálogo</a>
+            </div>
+        </div>
+    </div>
+</section>

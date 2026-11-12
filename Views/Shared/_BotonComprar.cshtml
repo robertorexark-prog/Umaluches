@@ -1,0 +1,17 @@
+@model Umaluches.Models.Producto
+@* Si hay sesión va directo al Checkout; si no, al Login con ReturnUrl para volver al Checkout después *@
+@{
+    var urlCheckout = Url.Action("Index", "Checkout", new { productoId = Model.Id });
+}
+@if (Model.Stock == 0)
+{
+    <button type="button" class="btn btn-secondary" disabled>Agotado</button>
+}
+else if (User.Identity?.IsAuthenticated == true)
+{
+    <a href="@urlCheckout" class="btn btn-primary">Comprar</a>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@urlCheckout" class="btn btn-primary">Inicia sesión para comprar</a>
+}

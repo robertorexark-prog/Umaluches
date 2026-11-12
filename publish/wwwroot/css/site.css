@@ -1,0 +1,296 @@
+/* =========================================
+   Paleta de Colores (heredada de Golshis)
+   ========================================= */
+:root {
+    --color-1: #e6dce6; /* Gris rosáceo */
+    --color-2: #fa3c46; /* Rojo / Rosa fuerte */
+    --color-3: #f0d28c; /* Dorado / Crema */
+    --color-4: #643c3c; /* Marrón oscuro */
+    --color-5: #f0e6e6; /* Blanco rosáceo */
+}
+
+/* =========================================
+   Estilos Generales
+   ========================================= */
+html {
+    font-size: 14px;
+    scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    background-color: var(--color-5);
+    color: var(--color-4);
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Ajuste del Navbar para que use el marrón oscuro de la paleta */
+.bg-dark {
+    background-color: var(--color-4) !important;
+}
+
+/* Espaciado para que el navbar fijo no tape el contenido */
+main {
+    padding-top: 80px;
+}
+
+/* Las anclas (#catalogo, #contacto...) no quedan debajo del navbar fijo */
+section[id], div[id="inicio"] {
+    scroll-margin-top: 80px;
+}
+
+/* Botón primario adaptado a la paleta */
+.btn-primary {
+    background-color: var(--color-2);
+    border-color: var(--color-2);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #d9353e; /* Un tono ligeramente más oscuro */
+    border-color: #d9353e;
+}
+
+/* Foco de botones y campos con el rojo de la paleta */
+.btn:focus, .btn:active:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem rgba(250, 60, 70, 0.5);
+}
+
+/* =========================================
+   Animaciones Hover (Hero Section)
+   ========================================= */
+.hero-section img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid var(--color-3);
+}
+
+/* Elevación e iluminación dorada al pasar el cursor */
+.hero-section img:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(240, 210, 140, 0.8);
+}
+
+/* =========================================
+   Sección de Tarjetas (Catálogo Cuties)
+   ========================================= */
+.mi-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden; /* Mantiene la imagen dentro del borde redondeado */
+}
+
+.mi-card .card-img-top {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.mi-card .precio {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* Colores de tarjeta: los ids se usan en Home/Index y las clases
+   (.card-roja, .card-dorada, .card-rosa) en las vistas generadas desde el modelo */
+
+/* Tarjeta 1: Special Week (Roja) */
+#specialweek,
+.card-roja {
+    background-color: var(--color-2);
+    color: white;
+}
+#specialweek .btn-outline-primary,
+.card-roja .btn-outline-primary {
+    color: white;
+    border-color: white;
+}
+#specialweek .btn-outline-primary:hover,
+.card-roja .btn-outline-primary:hover {
+    background-color: white;
+    color: var(--color-2);
+}
+#specialweek:hover,
+.card-roja:hover {
+    transform: translateY(-10px);
+    /* Resplandor rojo usando RGB (250, 60, 70) */
+    box-shadow: 0 15px 30px rgba(250, 60, 70, 0.6);
+}
+
+/* Tarjeta 2: Silence Suzuka (Dorada) */
+#silencesuzuka,
+.card-dorada {
+    background-color: var(--color-3);
+    color: var(--color-4);
+}
+#silencesuzuka .btn-outline-primary,
+.card-dorada .btn-outline-primary {
+    color: var(--color-4);
+    border-color: var(--color-4);
+}
+#silencesuzuka .btn-outline-primary:hover,
+.card-dorada .btn-outline-primary:hover {
+    background-color: var(--color-4);
+    color: var(--color-3);
+}
+#silencesuzuka:hover,
+.card-dorada:hover {
+    transform: translateY(-10px);
+    /* Resplandor dorado usando RGB (240, 210, 140) */
+    box-shadow: 0 15px 30px rgba(240, 210, 140, 0.7);
+}
+
+/* Tarjeta 3: Tokai Teio (Gris Rosáceo) */
+#tokaiteio,
+.card-rosa {
+    background-color: var(--color-1);
+    color: var(--color-4);
+}
+#tokaiteio .btn-outline-primary,
+.card-rosa .btn-outline-primary {
+    color: var(--color-4);
+    border-color: var(--color-4);
+}
+#tokaiteio .btn-outline-primary:hover,
+.card-rosa .btn-outline-primary:hover {
+    background-color: var(--color-4);
+    color: var(--color-1);
+}
+#tokaiteio:hover,
+.card-rosa:hover {
+    transform: translateY(-10px);
+    /* Resplandor gris/rosa, un poco más oscuro para que se note sobre el fondo */
+    box-shadow: 0 15px 30px rgba(100, 60, 60, 0.35);
+}
+
+/* En la tarjeta roja el botón primario se invierte para que no se pierda */
+.card-roja .btn-primary {
+    background-color: white;
+    border-color: white;
+    color: var(--color-2);
+}
+.card-roja .btn-primary:hover {
+    background-color: var(--color-5);
+    color: #d9353e;
+}
+
+/* =========================================
+   Catálogo, detalle y placeholders
+   ========================================= */
+.img-producto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.placeholder-producto rect {
+    fill: var(--color-4);
+}
+.placeholder-producto text {
+    fill: var(--color-3);
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.filtros-catalogo {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+}
+
+.etiqueta-anime {
+    background-color: var(--color-4);
+    color: var(--color-5);
+}
+.etiqueta-generacion {
+    background-color: var(--color-5);
+    color: var(--color-4);
+}
+
+.precio-detalle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-2);
+}
+
+.detalle-imagen {
+    border: 2px solid var(--color-3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.detalle-imagen:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(240, 210, 140, 0.8);
+}
+
+.breadcrumb a {
+    color: var(--color-2);
+}
+
+/* =========================================
+   Login, checkout y perfil
+   ========================================= */
+.tarjeta-login {
+    border: 2px solid var(--color-3);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.tarjeta-login .card-header {
+    background-color: var(--color-4);
+    color: var(--color-5);
+}
+
+/* Botón "Salir" del navbar con apariencia de enlace */
+.navbar .btn-link.nav-link {
+    text-decoration: none;
+}
+
+/* =========================================
+   Ajustes de Tabla y Formulario
+   ========================================= */
+.table-dark {
+    background-color: var(--color-4) !important;
+}
+
+.alert-info {
+    background-color: var(--color-1);
+    color: var(--color-4);
+    border-color: var(--color-3);
+}
+
+/* =========================================
+   Pie de página
+   ========================================= */
+.pie-cuties {
+    background-color: var(--color-4);
+    color: var(--color-5);
+}
+
+.pie-cuties a {
+    color: var(--color-3);
+}
+
+/* =========================================
+   Botón flotante de música
+   ========================================= */
+.boton-musica {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1030;
+    width: 3rem;
+    height: 3rem;
+    border: 2px solid var(--color-3);
+    border-radius: 50%;
+    background-color: var(--color-4);
+    color: var(--color-5);
+    font-size: 1.25rem;
+    line-height: 1;
+    box-shadow: 0 4px 12px rgba(100, 60, 60, 0.35);
+    transition: transform 0.2s ease;
+}
+.boton-musica:hover {
+    transform: scale(1.1);
+}

@@ -1,0 +1,114 @@
+@using Umaluches.Models.ViewModels
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Finalizar compra";
+    // El controlador siempre carga el producto antes de mostrar esta vista
+    var producto = Model.Producto!;
+    var maximo = Math.Min(10, producto.Stock);
+    var invariante = System.Globalization.CultureInfo.InvariantCulture;
+}
+
+<section class="container mt-5 mb-5">
+    <h1 class="mb-4">Finalizar compra</h1>
+
+    <form asp-controller="Checkout" asp-action="Index" method="post">
+        <input type="hidden" asp-for="ProductoId" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-4">
+            <!--Formulario de envio-->
+            <div class="col-12 col-lg-7 order-2 order-lg-1">
+                <div class="card tarjeta-login shadow-sm">
+                    <div class="card-header">
+                        <h2 class="h5 mb-0">Datos de envío</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="NombreCompleto" class="form-label"></label>
+                            <input asp-for="NombreCompleto" class="form-control" />
+                            <span asp-validation-for="NombreCompleto" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Direccion" class="form-label"></label>
+                            <input asp-for="Direccion" class="form-control" placeholder="Calle, número, colonia" />
+                            <span asp-validation-for="Direccion" class="text-danger small"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Ciudad" class="form-label"></label>
+                                <input asp-for="Ciudad" class="form-control" />
+                                <span asp-validation-for="Ciudad" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CodigoPostal" class="form-label"></label>
+                                <input asp-for="CodigoPostal" class="form-control" inputmode="numeric" />
+                                <span asp-validation-for="CodigoPostal" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Telefono" class="form-label"></label>
+                            <input asp-for="Telefono" class="form-control" />
+                            <span asp-validation-for="Telefono" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Resumen de compra-->
+            <div class="col-12 col-lg-5 order-1 order-lg-2">
+                <div class="card mi-card card-dorada">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-4">
+                            <partial name="_ImagenProducto" model="producto" />
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h2 class="h5 card-title mb-1">@producto.Nombre</h2>
+                                <p class="small mb-0">@producto.Anime.Nombre · @producto.Generacion.Nombre</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body border-top">
+                        <div class="mb-3">
+                            <label asp-for="Cantidad" class="form-label"></label>
+                            <input asp-for="Cantidad" type="number" min="1" max="@maximo" class="form-control" id="cantidad"
+                                   data-precio="@producto.Precio.ToString(invariante)" data-envio="@Model.CostoEnvio.ToString(invariante)" />
+                            <div class="form-text">Disponibles: @producto.Stock</div>
+                            <span asp-validation-for="Cantidad" class="text-danger small"></span>
+                        </div>
+                        <dl class="row mb-0">
+                            <dt class="col-6">Precio unitario</dt>
+                            <dd class="col-6 text-end">@producto.Precio.ToString("C")</dd>
+                            <dt class="col-6">Subtotal</dt>
+                            <dd class="col-6 text-end" id="subtotal">@Model.Subtotal.ToString("C")</dd>
+                            <dt class="col-6">Envío</dt>
+                            <dd class="col-6 text-end">@Model.CostoEnvio.ToString("C")</dd>
+                            <dt class="col-6 fs-5">Total</dt>
+                            <dd class="col-6 text-end fs-5 fw-bold" id="total">@Model.Total.ToString("C")</dd>
+                        </dl>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Confirmar compra</button>
+            </div>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Actualiza subtotal y total al cambiar la cantidad (el servidor lo vuelve a validar al confirmar)
+        (() => {
+            const cantidad = document.getElementById('cantidad');
+            const precio = parseFloat(cantidad.dataset.precio);
+            const envio = parseFloat(cantidad.dataset.envio);
+            const moneda = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' });
+
+            cantidad.addEventListener('input', () => {
+                const piezas = Math.max(parseInt(cantidad.value, 10) || 0, 0);
+                document.getElementById('subtotal').textContent = moneda.format(precio * piezas);
+                document.getElementById('total').textContent = moneda.format(precio * piezas + envio);
+            });
+        })();
+    </script>
+}

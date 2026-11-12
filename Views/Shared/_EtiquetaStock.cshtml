@@ -1,0 +1,14 @@
+@model int
+@* Etiqueta de disponibilidad según las piezas en stock *@
+@if (Model == 0)
+{
+    <span class="badge bg-danger">Agotado</span>
+}
+else if (Model <= 5)
+{
+    <span class="badge bg-warning text-dark">Últimas @Model piezas</span>
+}
+else
+{
+    <span class="badge bg-success">En stock</span>
+}

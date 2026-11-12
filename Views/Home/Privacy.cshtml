@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Aviso de privacidad";
+}
+
+<section class="container mt-5 mb-5">
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+
+    <div class="card tarjeta-login shadow-sm">
+        <div class="card-body p-4">
+            <p>
+                En <strong>Umaluches Cuties</strong> solo usamos tus datos para gestionar tu cuenta,
+                procesar tus pedidos y responder los mensajes que nos envías.
+            </p>
+            <ul>
+                <li><strong>Datos de cuenta:</strong> nombre de usuario y correo electrónico.</li>
+                <li><strong>Datos de envío:</strong> nombre, dirección, ciudad, código postal y teléfono que capturas al comprar.</li>
+                <li><strong>Contraseñas:</strong> se guardan cifradas con un hash, nunca en texto plano.</li>
+            </ul>
+            <p class="mb-0">
+                Este sitio es un proyecto escolar y no comparte tu información con terceros.
+                Si quieres que eliminemos tus datos, escríbenos desde la sección de
+                <a asp-controller="Home" asp-action="Index" asp-fragment="contacto">contacto</a>.
+            </p>
+        </div>
+    </div>
+</section>

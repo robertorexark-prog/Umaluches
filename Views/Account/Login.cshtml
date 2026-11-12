@@ -1,0 +1,48 @@
+@using Umaluches.Models.ViewModels
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<section class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+            <div class="card tarjeta-login shadow">
+                <div class="card-header text-center">
+                    <h1 class="h3 mb-0">Iniciar sesión</h1>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-info small" role="alert">
+                        Datos de prueba: usuario <strong>trainer</strong>, contraseña <strong>cuties123</strong>.
+                    </div>
+
+                    <form asp-controller="Account" asp-action="Login" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input type="hidden" asp-for="ReturnUrl" />
+
+                        <div class="mb-3">
+                            <label asp-for="Usuario" class="form-label"></label>
+                            <input asp-for="Usuario" class="form-control" placeholder="trainer o trainer@tracen.com" autocomplete="username" />
+                            <span asp-validation-for="Usuario" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Contrasena" class="form-label"></label>
+                            <input asp-for="Contrasena" class="form-control" autocomplete="current-password" />
+                            <span asp-validation-for="Contrasena" class="text-danger small"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                    </form>
+
+                    <p class="text-center small mt-3 mb-0">
+                        ¿No tienes cuenta?
+                        <a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Model.ReturnUrl">Crea una aquí</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

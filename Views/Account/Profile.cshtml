@@ -1,0 +1,83 @@
+@using Umaluches.Models.ViewModels
+@model PerfilViewModel
+@{
+    ViewData["Title"] = "Mi cuenta";
+}
+
+<section class="container mt-5 mb-5">
+    <h1 class="mb-4">Mi cuenta</h1>
+
+    @if (TempData["CompraOk"] is string compraOk)
+    {
+        <div class="alert alert-success" role="alert">@compraOk</div>
+    }
+
+    <div class="row g-4">
+        <!--Datos basicos-->
+        <div class="col-12 col-lg-4">
+            <div class="card mi-card card-dorada h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Datos del usuario</h5>
+                    <dl class="mb-4">
+                        <dt>Usuario</dt>
+                        <dd>@Model.Usuario.NombreUsuario</dd>
+                        <dt>Correo</dt>
+                        <dd>@Model.Usuario.Correo</dd>
+                        <dt>Compras realizadas</dt>
+                        <dd>@Model.Historial.Count()</dd>
+                    </dl>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn btn-outline-primary">Cerrar sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--Historial de compras (simulado)-->
+        <div class="col-12 col-lg-8">
+            <h2 class="h4">Historial de compras</h2>
+            @if (!Model.Historial.Any())
+            {
+                <div class="alert alert-info" role="alert">
+                    Aún no tienes compras. <a asp-controller="Catalog" asp-action="Index">Ver el catálogo</a>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Peluche</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var compra in Model.Historial)
+                            {
+                                var claseEstado = compra.Estado switch
+                                {
+                                    "Entregado" => "bg-success",
+                                    "En camino" => "bg-warning text-dark",
+                                    "Pendiente" => "bg-info text-dark",
+                                    "Cancelado" => "bg-danger",
+                                    _ => "bg-secondary"
+                                };
+                                <tr>
+                                    <td>@compra.Fecha.ToString("dd/MM/yyyy")</td>
+                                    <td><a asp-controller="Catalog" asp-action="Details" asp-route-id="@compra.ProductoId">@compra.NombreProducto</a></td>
+                                    <td>@compra.Cantidad</td>
+                                    <td>@compra.Total.ToString("C")</td>
+                                    <td><span class="badge @claseEstado">@compra.Estado</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</section>
